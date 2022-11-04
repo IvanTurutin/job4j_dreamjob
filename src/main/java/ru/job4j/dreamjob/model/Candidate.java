@@ -60,14 +60,11 @@ public class Candidate {
             return false;
         }
         Candidate candidate = (Candidate) o;
-        return id == candidate.id
-                && Objects.equals(name, candidate.name)
-                && Objects.equals(description, candidate.description)
-                && Objects.equals(create, candidate.create);
+        return id == candidate.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, create);
+        return Objects.hash(id);
     }
 }
