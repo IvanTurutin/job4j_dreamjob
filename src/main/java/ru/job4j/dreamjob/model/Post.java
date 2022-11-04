@@ -60,14 +60,11 @@ public class Post {
             return false;
         }
         Post post = (Post) o;
-        return id == post.id
-                && Objects.equals(name, post.name)
-                && Objects.equals(description, post.description)
-                && Objects.equals(create, post.create);
+        return id == post.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, create);
+        return Objects.hash(id);
     }
 }
