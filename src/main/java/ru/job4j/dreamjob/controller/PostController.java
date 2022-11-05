@@ -31,14 +31,6 @@ public class PostController {
 
     @PostMapping("/createPost")
     public String createPost(@ModelAttribute Post post) {
-/*
-        int id = Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("name");
-        String description = req.getParameter("description");
-        System.out.println("id = " + id + ", " + "name = " + name + ", " + "description = " + description);
-        postStore.add(new Post(id, name, description, LocalDateTime.now()));
-*/
-        System.out.println(post);
         postStore.add(post);
         return "redirect:/posts";
     }
