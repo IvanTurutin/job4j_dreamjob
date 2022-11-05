@@ -7,17 +7,19 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CandidateStore {
 
     private static final CandidateStore INST = new CandidateStore();
 
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+    private final AtomicInteger id = new AtomicInteger();
 
     private CandidateStore() {
-        candidates.put(1, new Candidate(1, "Ivan", "Description for Ivan", LocalDateTime.now()));
-        candidates.put(2, new Candidate(2, "Aleksandr", "Description for Aleksandr", LocalDateTime.now()));
-        candidates.put(3, new Candidate(3, "Vladimir", "Description for Vladimir", LocalDateTime.now()));
+        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Ivan", "Description for Ivan", LocalDateTime.now()));
+        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Aleksandr", "Description for Aleksandr", LocalDateTime.now()));
+        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Vladimir", "Description for Vladimir", LocalDateTime.now()));
     }
 
     public static CandidateStore instOf() {
@@ -29,6 +31,7 @@ public class CandidateStore {
     }
 
     public void add(Candidate candidate) {
+        candidate.setId(id.incrementAndGet());
         candidates.putIfAbsent(candidate.getId(), candidate);
     }
 
@@ -37,6 +40,6 @@ public class CandidateStore {
     }
 
     public void update(Candidate candidate) {
-        candidates.put(candidate.getId(), candidate);
+        candidates.replace(candidate.getId(), candidate);
     }
 }
