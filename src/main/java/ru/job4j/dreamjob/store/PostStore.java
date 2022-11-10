@@ -18,9 +18,9 @@ public class PostStore {
     private final AtomicInteger id = new AtomicInteger();
 
     private PostStore() {
-        posts.put(id.incrementAndGet(), new Post(id.get(), "Junior Java Job", "Description for Junior Java Job", LocalDateTime.now()));
-        posts.put(id.incrementAndGet(), new Post(id.get(), "Middle Java Job", "Description for Middle Java Job", LocalDateTime.now()));
-        posts.put(id.incrementAndGet(), new Post(id.get(), "Senior Java Job", "Description for Senior Java Job", LocalDateTime.now()));
+        posts.put(id.incrementAndGet(), new Post(id.get(), "Junior Java Job", "Description for Junior Java Job", LocalDateTime.now(), true));
+        posts.put(id.incrementAndGet(), new Post(id.get(), "Middle Java Job", "Description for Middle Java Job", LocalDateTime.now(), true));
+        posts.put(id.incrementAndGet(), new Post(id.get(), "Senior Java Job", "Description for Senior Java Job", LocalDateTime.now(), true));
     }
 
     public void add(Post post) {
