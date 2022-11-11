@@ -19,9 +19,9 @@ public class CandidateStore {
     private final AtomicInteger id = new AtomicInteger();
 
     private CandidateStore() {
-        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Ivan", "Description for Ivan", LocalDateTime.now(), new City(0, "Казань")));
-        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Aleksandr", "Description for Aleksandr", LocalDateTime.now(), new City(0, "Казань")));
-        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Vladimir", "Description for Vladimir", LocalDateTime.now(), new City(0, "Казань")));
+        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Ivan", "Description for Ivan", LocalDateTime.now(), true, new City(0, "Казань")));
+        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Aleksandr", "Description for Aleksandr", LocalDateTime.now(), true, new City(0, "Казань")));
+        candidates.put(id.incrementAndGet(), new Candidate(id.get(), "Vladimir", "Description for Vladimir", LocalDateTime.now(), true, new City(0, "Казань")));
     }
 
     public Collection<Candidate> findAll() {

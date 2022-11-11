@@ -8,16 +8,18 @@ public class Candidate {
     private String name;
     private String description;
     private LocalDateTime create;
+    private boolean visible;
     private City city;
 
     public Candidate() {
     }
 
-    public Candidate(int id, String name, String description, LocalDateTime create, City city) {
+    public Candidate(int id, String name, String description, LocalDateTime create, boolean visible, City city) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.create = create;
+        this.visible = visible;
         this.city = city;
     }
 
@@ -51,6 +53,14 @@ public class Candidate {
 
     public void setCreate(LocalDateTime create) {
         this.create = create;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public City getCity() {
