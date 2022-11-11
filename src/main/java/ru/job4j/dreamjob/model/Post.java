@@ -9,16 +9,18 @@ public class Post {
     private String description;
     private LocalDateTime create;
     private boolean visible;
+    private City city;
 
     public Post() {
     }
 
-    public Post(int id, String name, String description, LocalDateTime create, boolean visible) {
+    public Post(int id, String name, String description, LocalDateTime create, boolean visible, City city) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.create = create;
         this.visible = visible;
+        this.city = city;
     }
 
     public int getId() {
@@ -61,6 +63,14 @@ public class Post {
         this.visible = visible;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -84,6 +94,7 @@ public class Post {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
+                + ", city='" + city + '\''
                 + ", create=" + create
                 + '}';
     }

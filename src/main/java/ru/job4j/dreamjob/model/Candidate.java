@@ -8,15 +8,17 @@ public class Candidate {
     private String name;
     private String description;
     private LocalDateTime create;
+    private City city;
 
     public Candidate() {
     }
 
-    public Candidate(int id, String name, String description, LocalDateTime create) {
+    public Candidate(int id, String name, String description, LocalDateTime create, City city) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.create = create;
+        this.city = city;
     }
 
     public int getId() {
@@ -51,6 +53,14 @@ public class Candidate {
         this.create = create;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -74,6 +84,7 @@ public class Candidate {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
+                + ", city='" + city + '\''
                 + ", create=" + create
                 + '}';
     }
