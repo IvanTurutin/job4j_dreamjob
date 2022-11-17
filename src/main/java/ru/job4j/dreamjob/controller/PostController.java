@@ -64,7 +64,6 @@ public class PostController {
     @PostMapping("/updatePost")
     public String updatePost(@ModelAttribute Post post) {
         post.setCity(cityService.findById(post.getCity().getId()));
-        post.setCreate(LocalDateTime.now());
         LOG.trace("Post object when updatePost = {}", post);
         postService.update(post);
         return "redirect:/posts";

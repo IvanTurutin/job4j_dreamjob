@@ -49,6 +49,7 @@ public class CandidateController {
         System.out.println(candidate);
         candidate.setPhoto(file.getBytes());
         candidate.setCity(cityService.findById(candidate.getCity().getId()));
+        candidate.setCreate(LocalDateTime.now());
         candidateService.add(candidate);
         return "redirect:/candidates";
     }

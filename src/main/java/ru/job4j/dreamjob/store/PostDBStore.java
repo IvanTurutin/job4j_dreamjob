@@ -104,11 +104,6 @@ public class PostDBStore {
             ps.setInt(5, post.getCity().getId());
             ps.setInt(6, post.getId());
             ps.execute();
-            try (ResultSet id = ps.getGeneratedKeys()) {
-                if (id.next()) {
-                    post.setId(id.getInt(1));
-                }
-            }
         } catch (Exception e) {
             LOG.error("Exception in PostDBStore", e);
         }
