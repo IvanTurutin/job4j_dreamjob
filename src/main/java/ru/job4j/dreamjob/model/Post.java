@@ -94,8 +94,8 @@ public class Post {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
-                + ", city='" + city + '\''
                 + ", create=" + create
+                + ", city='" + city + '\''
                 + '}';
     }
 }
