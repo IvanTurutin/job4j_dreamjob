@@ -22,6 +22,8 @@ public class CandidateDBStore {
 
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(PostDBStore.class.getName());
+    private static final String TABLE_NAME = "candidates";
+    private static final String TRUNCATE_TABLE = String.format("TRUNCATE TABLE %s RESTART IDENTITY", TABLE_NAME);
 
     public CandidateDBStore(BasicDataSource pool) {
         this.pool = pool;
@@ -145,4 +147,15 @@ public class CandidateDBStore {
             LOG.error("Exception in PostDBStore", e);
         }
     }
+
+    public void truncateTable() {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(TRUNCATE_TABLE)
+        ) {
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error("Exception in PostDBStore", e);
+        }
+    }
+
 }

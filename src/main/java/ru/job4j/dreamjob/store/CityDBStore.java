@@ -20,7 +20,7 @@ public class CityDBStore {
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(CityDBStore.class.getName());
 
-    private CityDBStore(BasicDataSource pool) {
+    public CityDBStore(BasicDataSource pool) {
         this.pool = pool;
     }
 

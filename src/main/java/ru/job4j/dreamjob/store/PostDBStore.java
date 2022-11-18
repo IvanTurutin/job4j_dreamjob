@@ -5,11 +5,10 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +19,14 @@ public class PostDBStore {
 
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(PostDBStore.class.getName());
+    private static final String TABLE_NAME = "posts";
+    private static final String TRUNCATE_TABLE = String.format("TRUNCATE TABLE %s RESTART IDENTITY", TABLE_NAME);
 
     public PostDBStore(BasicDataSource pool) {
         this.pool = pool;
     }
 
-    public List<Post> findAll() {
+    public Collection<Post> findAll() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
@@ -142,5 +143,15 @@ public class PostDBStore {
             LOG.error("Exception in PostDBStore", e);
         }
         return null;
+    }
+
+    public void truncateTable() {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(TRUNCATE_TABLE)
+        ) {
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error("Exception in PostDBStore", e);
+        }
     }
 }
