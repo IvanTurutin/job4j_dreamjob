@@ -24,15 +24,14 @@ public class PostDBStore {
     private static final String TABLE_NAME_CITIES = "cities";
     private static final String TRUNCATE_TABLE = String.format("TRUNCATE TABLE %s RESTART IDENTITY", TABLE_NAME_POSTS);
     private static final String SELECT_STATEMENT = String.format(
-            "SELECT p.id as post_id, "
-            + "p.*, "
+            "SELECT p.*, "
             + "c.name as city_name "
             + "FROM %s as p "
             + "JOIN %s as c "
             + "ON p.city_id = c.id ",
             TABLE_NAME_POSTS,
             TABLE_NAME_CITIES);
-    private static final String FIND_ALL_STATEMENT = SELECT_STATEMENT + "ORDER BY post_id";
+    private static final String FIND_ALL_STATEMENT = SELECT_STATEMENT + "ORDER BY id";
     private static final String FIND_BY_ID_STATEMENT = SELECT_STATEMENT + "WHERE p.id = ?";
     private static final String ADD_STATEMENT = String.format("INSERT INTO %s(name, description, date, visible, city_id) "
             + "VALUES (?, ?, ?, ?, ?)", TABLE_NAME_POSTS);
