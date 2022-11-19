@@ -25,11 +25,7 @@ public class PostDBStore {
     private static final String TRUNCATE_TABLE = String.format("TRUNCATE TABLE %s RESTART IDENTITY", TABLE_NAME_POSTS);
     private static final String SELECT_STATEMENT = String.format(
             "SELECT p.id as post_id, "
-            + "p.name as post_name, "
-            + "p.description as post_description, "
-            + "p.date as post_date, "
-            + "p.visible as post_visible, "
-            + "p.city_id as post_city_id, "
+            + "p.*, "
             + "c.name as city_name "
             + "FROM %s as p "
             + "JOIN %s as c "
@@ -126,12 +122,12 @@ public class PostDBStore {
     private Post createPost(ResultSet it) {
         try {
             return new Post(
-                    it.getInt("post_id"),
-                    it.getString("post_name"),
-                    it.getString("post_description"),
-                    it.getTimestamp("post_date").toLocalDateTime(),
-                    it.getBoolean("post_visible"),
-                    new City(it.getInt("post_city_id"), it.getString("city_name"))
+                    it.getInt("id"),
+                    it.getString("name"),
+                    it.getString("description"),
+                    it.getTimestamp("date").toLocalDateTime(),
+                    it.getBoolean("visible"),
+                    new City(it.getInt("city_id"), it.getString("city_name"))
             );
         } catch (SQLException e) {
             e.printStackTrace();
