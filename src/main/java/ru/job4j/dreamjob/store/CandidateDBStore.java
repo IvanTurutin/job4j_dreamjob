@@ -25,18 +25,14 @@ public class CandidateDBStore {
     private static final String TABLE_NAME_CITIES = "cities";
     private static final String TRUNCATE_TABLE = String.format("TRUNCATE TABLE %s RESTART IDENTITY", TABLE_NAME_CANDIDATES);
     private static final String SELECT_STATEMENT = String.format(
-            "SELECT cnd.id as candidate_id, "
-                    + "cnd.name as candidate_name, "
-                    + "cnd.description as candidate_description, "
-                    + "cnd.date as candidate_date, "
-                    + "cnd.visible as candidate_visible, "
-                    + "cnd.city_id as candidate_city_id, "
-                    + "cnd.name as city_name "
-                    + "FROM %s as cnd "
-                    + "JOIN %s as c "
-                    + "ON cnd.city_id = c.id ",
-            TABLE_NAME_CANDIDATES,
-            TABLE_NAME_CITIES);
+        "SELECT cnd.id as candidate_id, "
+                + "cnd.*, "
+                + "c.name as city_name "
+                + "FROM %s as cnd "
+                + "JOIN %s as c "
+                + "ON cnd.city_id = c.id ",
+        TABLE_NAME_CANDIDATES,
+        TABLE_NAME_CITIES);
     private static final String FIND_ALL_STATEMENT = SELECT_STATEMENT + "ORDER BY candidate_id";
     private static final String FIND_BY_ID_STATEMENT = SELECT_STATEMENT + "WHERE cnd.id = ?";
     private static final String ADD_STATEMENT = String.format("INSERT INTO %s(name, description, date, visible, city_id) "
@@ -127,12 +123,12 @@ public class CandidateDBStore {
     private Candidate createCandidate(ResultSet it) {
         try {
             return new Candidate(
-                    it.getInt("candidate_id"),
-                    it.getString("candidate_name"),
-                    it.getString("candidate_description"),
-                    it.getTimestamp("candidate_date").toLocalDateTime(),
-                    it.getBoolean("candidate_visible"),
-                    new City(it.getInt("candidate_city_id"), it.getString("city_name"))
+                    it.getInt("id"),
+                    it.getString("name"),
+                    it.getString("description"),
+                    it.getTimestamp("date").toLocalDateTime(),
+                    it.getBoolean("visible"),
+                    new City(it.getInt("city_id"), it.getString("city_name"))
             );
         } catch (SQLException e) {
             e.printStackTrace();
