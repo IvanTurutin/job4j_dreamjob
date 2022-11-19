@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.model.City;
-import ru.job4j.dreamjob.model.Post;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,15 +24,14 @@ public class CandidateDBStore {
     private static final String TABLE_NAME_CITIES = "cities";
     private static final String TRUNCATE_TABLE = String.format("TRUNCATE TABLE %s RESTART IDENTITY", TABLE_NAME_CANDIDATES);
     private static final String SELECT_STATEMENT = String.format(
-        "SELECT cnd.id as candidate_id, "
-                + "cnd.*, "
+        "SELECT cnd.*, "
                 + "c.name as city_name "
                 + "FROM %s as cnd "
                 + "JOIN %s as c "
                 + "ON cnd.city_id = c.id ",
         TABLE_NAME_CANDIDATES,
         TABLE_NAME_CITIES);
-    private static final String FIND_ALL_STATEMENT = SELECT_STATEMENT + "ORDER BY candidate_id";
+    private static final String FIND_ALL_STATEMENT = SELECT_STATEMENT + "ORDER BY id";
     private static final String FIND_BY_ID_STATEMENT = SELECT_STATEMENT + "WHERE cnd.id = ?";
     private static final String ADD_STATEMENT = String.format("INSERT INTO %s(name, description, date, visible, city_id) "
             + "VALUES (?, ?, ?, ?, ?)", TABLE_NAME_CANDIDATES);
