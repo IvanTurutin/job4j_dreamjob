@@ -1,5 +1,7 @@
 package ru.job4j.dreamjob.store;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.dreamjob.Main;
 import ru.job4j.dreamjob.model.Candidate;
@@ -12,9 +14,20 @@ import static org.assertj.core.api.Assertions.*;
 
 class CandidateDBStoreTest {
 
+    private static CandidateDBStore store;
+
+    @BeforeAll
+    public static void initStore() {
+        store = new CandidateDBStore(new Main().loadPool());
+    }
+
+    @AfterEach
+    public void truncateTable() {
+        store.truncateTable();
+    }
+
     @Test
     public void whenCreateCandidate() {
-        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
         Candidate candidate = new Candidate(
                 0,
                 "Candidate 1",
@@ -28,12 +41,11 @@ class CandidateDBStoreTest {
         System.out.println(candidate);
         Candidate candidateInDb = store.findById(candidate.getId());
         assertThat(candidateInDb.getName()).isEqualTo(candidate.getName());
-        store.truncateTable();
+        assertThat(candidateInDb.getCity().getName()).isEqualTo("Москва");
     }
 
     @Test
     public void whenFindAllCandidates() {
-        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
         Candidate candidate = new Candidate(
                 0,
                 "Candidate 1",
@@ -59,7 +71,6 @@ class CandidateDBStoreTest {
 
     @Test
     public void whenUpdateCandidate() {
-        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
         Candidate candidate = new Candidate(
                 0,
                 "Candidate 1",
@@ -75,6 +86,4 @@ class CandidateDBStoreTest {
         assertThat(store.findById(candidate.getId()).getName()).isEqualTo(expectedName);
         store.truncateTable();
     }
-
-
 }

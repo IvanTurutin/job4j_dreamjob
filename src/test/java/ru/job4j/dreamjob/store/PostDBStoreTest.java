@@ -1,5 +1,7 @@
 package ru.job4j.dreamjob.store;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.dreamjob.Main;
 import ru.job4j.dreamjob.model.City;
@@ -11,9 +13,21 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.*;
 
 public class PostDBStoreTest {
+
+    private static PostDBStore store;
+
+    @BeforeAll
+    public static void initStore() {
+        store = new PostDBStore(new Main().loadPool());
+    }
+
+    @AfterEach
+    public void truncateTable() {
+        store.truncateTable();
+    }
+
     @Test
     public void whenCreatePost() {
-        PostDBStore store = new PostDBStore(new Main().loadPool());
         Post post = new Post(
                 0,
                 "Java Job",
@@ -22,17 +36,14 @@ public class PostDBStoreTest {
                 false,
                 new City(1, "")
         );
-        System.out.println(post);
         store.add(post);
-        System.out.println(post);
         Post postInDb = store.findById(post.getId());
         assertThat(postInDb.getName()).isEqualTo(post.getName());
-        store.truncateTable();
+        assertThat(postInDb.getCity().getName()).isEqualTo("Москва");
     }
 
     @Test
     public void whenFindAllPosts() {
-        PostDBStore store = new PostDBStore(new Main().loadPool());
         Post post = new Post(
                 0,
                 "Java Job",
@@ -52,12 +63,10 @@ public class PostDBStoreTest {
         store.add(post2);
         Collection<Post> postsInDb = store.findAll();
         assertThat(postsInDb).isNotEmpty().hasSize(2).contains(post, post2);
-        store.truncateTable();
     }
 
     @Test
     public void whenUpdatePost() {
-        PostDBStore store = new PostDBStore(new Main().loadPool());
         Post post = new Post(
                 0,
                 "Java Job",
@@ -71,6 +80,5 @@ public class PostDBStoreTest {
         post.setName(expectedName);
         store.update(post);
         assertThat(store.findById(post.getId()).getName()).isEqualTo(expectedName);
-        store.truncateTable();
     }
 }
