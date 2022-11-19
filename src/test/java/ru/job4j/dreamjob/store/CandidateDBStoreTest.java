@@ -86,4 +86,5 @@ class CandidateDBStoreTest {
         assertThat(store.findById(candidate.getId()).getName()).isEqualTo(expectedName);
         store.truncateTable();
     }
+
 }

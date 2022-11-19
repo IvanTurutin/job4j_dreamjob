@@ -81,4 +81,5 @@ public class PostDBStoreTest {
         store.update(post);
         assertThat(store.findById(post.getId()).getName()).isEqualTo(expectedName);
     }
+
 }
