@@ -11,6 +11,7 @@ import ru.job4j.dreamjob.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @ThreadSafe
@@ -26,6 +27,10 @@ public class UserDBStore {
             TABLE_NAME);
     private static final String FIND_BY_EMAIL_STATEMENT = String.format("SELECT * FROM %s WHERE email = ?", TABLE_NAME);
     private static final String TRUNCATE_TABLE = String.format("TRUNCATE TABLE %s RESTART IDENTITY", TABLE_NAME);
+    private static final String FIND_BY_EMAIL_AND_PASSWORD_STATEMENT = String.format(
+            "SELECT * FROM %s WHERE email = ? AND password = ?",
+            TABLE_NAME);
+
 
     public UserDBStore(BasicDataSource pool) {
         this.pool = pool;
@@ -58,15 +63,32 @@ public class UserDBStore {
             ps.setString(1, email);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return Optional.of(
-                            new User(
-                            it.getInt("id"),
-                            it.getString("email"),
-                            it.getString("password")
-                    ));
+                    return Optional.of(createUser(it));
                 }
             }
+        } catch (Exception e) {
+            LOG.error("Exception in UserDBStore", e);
+        }
+        return Optional.empty();
+    }
 
+    private User createUser(ResultSet it) throws SQLException {
+        return new User(
+                it.getInt("id"),
+                it.getString("email"),
+                it.getString("password"));
+    }
+
+    public Optional<User> findUserByEmailAndPassword(String email, String password) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(FIND_BY_EMAIL_AND_PASSWORD_STATEMENT)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return Optional.of(createUser(it));
+                }
+            }
         } catch (Exception e) {
             LOG.error("Exception in UserDBStore", e);
         }
@@ -82,5 +104,4 @@ public class UserDBStore {
             LOG.error("Exception in UserDBStore", e);
         }
     }
-
 }
