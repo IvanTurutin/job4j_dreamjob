@@ -33,42 +33,13 @@
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                 <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Добавить кандидата</a>
                 <a class="nav-item nav-link" th:href="@{/formAddUser}">Регистрация</a>
-
             </div>
         </div>
     </nav>
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Город</th>
-                <th scope="col">Дата публикации</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post: ${posts}">
-                <td th:text="${post.id}" />
-                <td>
-                    <a th:href="@{|/formUpdatePost/${post.id}|}">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <span th:text="${post.name}"></span>
-                    <span th:if="${post.visible}">
-                        <i class="fa fa-check-square-o"></i>
-                    </span>
-                    <span th:if="${!post.visible}">
-                        <i class="fa fa-square-o"></i>
-                    </span>
-                </td>
-                <td th:text="${post.description}" />
-                <td th:text="${post.city.name}" />
-                <td th:text="${post.create}" />
-            </tr>
-            </tbody>
-        </table>
+        <div class="alert alert-success" role="alert">
+            <h4 th:text="${message}"></h4>
+        </div>
     </div>
 </div>
 </body>

@@ -101,7 +101,6 @@
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.200</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -111,7 +110,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>${parent.version}</version>
+        <version>${project.parent.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

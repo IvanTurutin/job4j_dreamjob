@@ -20,6 +20,10 @@ public class CityDBStore {
     private final BasicDataSource pool;
     private static final Logger LOG = LoggerFactory.getLogger(CityDBStore.class.getName());
 
+    private static final String TABLE_NAME = "cities";
+    private static final String GET_ALL_STATEMENT = String.format("SELECT * FROM %s ORDER BY id", TABLE_NAME);
+    private static final String FIND_BY_ID_STATEMENT = String.format("SELECT * FROM %s WHERE id = ?", TABLE_NAME);
+
     public CityDBStore(BasicDataSource pool) {
         this.pool = pool;
     }
@@ -27,9 +31,7 @@ public class CityDBStore {
     public List<City> getAllCities() {
         List<City> cities = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement(
-                     "SELECT * FROM cities ORDER BY id"
-             )
+             PreparedStatement ps =  cn.prepareStatement(GET_ALL_STATEMENT)
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -43,9 +45,7 @@ public class CityDBStore {
 
     public City findById(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement(
-                     "SELECT * FROM cities WHERE id = ?"
-             )
+             PreparedStatement ps =  cn.prepareStatement(FIND_BY_ID_STATEMENT)
         ) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
@@ -53,7 +53,6 @@ public class CityDBStore {
                     return new City(
                             it.getInt("id"),
                             it.getString("name")
-
                     );
                 }
             }
