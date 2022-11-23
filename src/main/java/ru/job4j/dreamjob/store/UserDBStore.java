@@ -37,7 +37,7 @@ public class UserDBStore {
     }
 
     public Optional<User> add(User user) {
-        Optional<User> optionalUser = Optional.of(user);
+        Optional<User> optionalUser = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(ADD_STATEMENT,
                      PreparedStatement.RETURN_GENERATED_KEYS)
@@ -48,11 +48,11 @@ public class UserDBStore {
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
                     user.setId(id.getInt(1));
+                    optionalUser = Optional.of(user);
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception in UserDBStore", e);
-            optionalUser = Optional.empty();
         }
         return optionalUser;
     }
