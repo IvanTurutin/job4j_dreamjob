@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.model.City;
+import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CandidateService;
 import ru.job4j.dreamjob.service.CityService;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -31,14 +33,25 @@ public class CandidateController {
     }
 
     @GetMapping("/candidates")
-    public String candidates(Model model) {
+    public String candidates(Model model, HttpSession session) {
+        model.addAttribute("user", IndexControl.checkUser(session));
         model.addAttribute("candidates", candidateService.findAll());
         return "candidates";
     }
 
     @GetMapping("/formAddCandidate")
-    public String addCandidate(Model model) {
-        model.addAttribute("candidate", new Candidate(0, "Заполните имя", "Заполните описание", LocalDateTime.now(), false, new City()));
+    public String addCandidate(Model model, HttpSession session) {
+        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute(
+                "candidate",
+                new Candidate(
+                        0,
+                        "Заполните имя",
+                        "Заполните описание",
+                        LocalDateTime.now(),
+                        false,
+                        new City())
+        );
         model.addAttribute("cities", cityService.getAllCities());
         return "addCandidate";
     }
@@ -55,7 +68,8 @@ public class CandidateController {
     }
 
     @GetMapping("/formUpdateCandidate/{candidateId}")
-    public String formUpdateCandidate(Model model, @PathVariable("candidateId") int id) {
+    public String formUpdateCandidate(Model model, HttpSession session, @PathVariable("candidateId") int id) {
+        model.addAttribute("user", IndexControl.checkUser(session));
         model.addAttribute("candidate", candidateService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
         return "updateCandidate";
@@ -79,5 +93,6 @@ public class CandidateController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new ByteArrayResource(candidate.getPhoto()));
     }
+
 
 }

@@ -20,18 +20,23 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Работа мечты</a>
+        <a class="navbar-brand" th:href="@{/index}">Работа мечты</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/index}">Главная</a>
-                <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
-                <a class="nav-item nav-link" th:href="@{/formAddPost}">Добавить вакансию</a>
-                <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
-                <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Добавить кандидата</a>
                 <a class="nav-item nav-link active" href="#">Регистрация<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" th:if="${user.email == 'Гость'}" th:href="@{/loginPage}">
+                    <span th:text="${user.email}"></span>
+                    <span> | Войти</span>
+                </a>
+                <a class="nav-item nav-link" th:if="${user.email != 'Гость'}" th:href="@{/logout}">
+                    <span th:text="${user.email}"></span>
+                    <span> | Выйти</span>
+                </a>
+
             </div>
         </div>
     </nav>
@@ -45,11 +50,11 @@
                     <input type="hidden" name="id" value="0"/>
                     <div class="form-group">
                         <label for="email">Почта</label>
-                        <input type="email" class="form-control" id="email" name="email" th:placeholder="${user.email}">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Введите email">
                     </div>
                     <div class="form-group">
                         <label for="password">Пароль</label>
-                        <input type="password" class="form-control" id="password" name="password" th:placeholder="${user.password}">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль">
                         <small id="password-help" class="form-text text-muted">
                             Пароль должен быть длиной 8-20 символов, содержать буквы и цифры
                             и не должен содержать пробелов.
