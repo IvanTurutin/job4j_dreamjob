@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.UserService;
+import ru.job4j.dreamjob.utils.ControllerUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,7 @@ public class UserController {
 
     @GetMapping("/formAddUser")
     public String addUser(Model model, HttpSession session) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         return "addUser";
     }
 
@@ -45,14 +46,14 @@ public class UserController {
 
     @GetMapping("/fail")
     public String fail(Model model, HttpSession session) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute("message", "Пользователь с такой почтой уже существует.");
         return "fail";
     }
 
     @GetMapping("/success")
     public String success(Model model, HttpSession session) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute("message", "Пользователь успешно зарегистрирован.");
         return "success";
     }

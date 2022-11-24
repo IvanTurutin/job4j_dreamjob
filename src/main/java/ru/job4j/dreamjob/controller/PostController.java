@@ -14,6 +14,7 @@ import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.PostService;
+import ru.job4j.dreamjob.utils.ControllerUtils;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -34,14 +35,14 @@ public class PostController {
 
     @GetMapping("/posts")
     public String posts(Model model, HttpSession session) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute("posts", postService.findAll());
         return "posts";
     }
 
     @GetMapping("/formAddPost")
     public String addPost(Model model, HttpSession session) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute("post", new Post(0, "Заполните название", "Заполните описание", LocalDateTime.now(), false, new City(0, "Выберите город")));
         model.addAttribute("cities", cityService.getAllCities());
         return "addPost";
@@ -58,7 +59,7 @@ public class PostController {
 
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, HttpSession session, @PathVariable("postId") int id) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute("post", postService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
         return "updatePost";

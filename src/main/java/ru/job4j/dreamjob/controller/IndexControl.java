@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dreamjob.model.User;
+import ru.job4j.dreamjob.utils.ControllerUtils;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,22 +14,14 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class IndexControl {
 
-    private static final String GUEST = "Гость";
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
-        model.addAttribute("user", checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         return "index";
     }
 
-    public static User checkUser(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
-        return user;
-    }
+
 
 
 }

@@ -15,6 +15,7 @@ import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CandidateService;
 import ru.job4j.dreamjob.service.CityService;
+import ru.job4j.dreamjob.utils.ControllerUtils;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -34,14 +35,14 @@ public class CandidateController {
 
     @GetMapping("/candidates")
     public String candidates(Model model, HttpSession session) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute("candidates", candidateService.findAll());
         return "candidates";
     }
 
     @GetMapping("/formAddCandidate")
     public String addCandidate(Model model, HttpSession session) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute(
                 "candidate",
                 new Candidate(
@@ -69,7 +70,7 @@ public class CandidateController {
 
     @GetMapping("/formUpdateCandidate/{candidateId}")
     public String formUpdateCandidate(Model model, HttpSession session, @PathVariable("candidateId") int id) {
-        model.addAttribute("user", IndexControl.checkUser(session));
+        model.addAttribute("user", ControllerUtils.checkUser(session));
         model.addAttribute("candidate", candidateService.findById(id));
         model.addAttribute("cities", cityService.getAllCities());
         return "updateCandidate";
