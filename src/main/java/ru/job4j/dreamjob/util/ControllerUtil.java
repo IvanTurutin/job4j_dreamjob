@@ -1,10 +1,14 @@
-package ru.job4j.dreamjob.utils;
+package ru.job4j.dreamjob.util;
 
 import ru.job4j.dreamjob.model.User;
 
 import javax.servlet.http.HttpSession;
 
-public class ControllerUtils {
+public final class ControllerUtil {
+
+    private ControllerUtil() {
+        
+    }
 
     private static final String GUEST = "Гость";
 

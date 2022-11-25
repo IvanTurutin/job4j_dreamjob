@@ -4,9 +4,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import ru.job4j.dreamjob.model.User;
-import ru.job4j.dreamjob.utils.ControllerUtils;
+import ru.job4j.dreamjob.util.ControllerUtil;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +15,7 @@ public class IndexControl {
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
-        model.addAttribute("user", ControllerUtils.checkUser(session));
+        model.addAttribute("user", ControllerUtil.checkUser(session));
         return "index";
     }
 
