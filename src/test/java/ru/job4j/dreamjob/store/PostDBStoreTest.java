@@ -48,14 +48,14 @@ public class PostDBStoreTest {
                 0,
                 "Java Job",
                 "Description for Job",
-                LocalDateTime.now(),
+                LocalDateTime.now().withNano(0),
                 false, new City(1, "")
         );
         Post post2 = new Post(
                 0,
                 "Java Job2",
                 "Description for Job2",
-                LocalDateTime.now(),
+                LocalDateTime.now().withNano(0),
                 false,
                 new City(2, "")
         );
