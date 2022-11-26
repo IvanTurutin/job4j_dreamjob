@@ -5,9 +5,21 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class AuthFilter implements Filter {
+
+    private final static Set<String> ALLOWABLE_URI = Set.of(
+            "loginPage",
+            "login",
+            "formAddUser",
+            "registration",
+            "fail",
+            "success"
+    );
 
     @Override
     public void doFilter(
@@ -17,12 +29,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
-        if (uri.endsWith("loginPage")
-                || uri.endsWith("login")
-                || uri.endsWith("formAddUser")
-                || uri.endsWith("registration")
-                || uri.endsWith("fail")
-                || uri.endsWith("success")) {
+        if (checkAllowableUri(uri)) {
             chain.doFilter(req, res);
             return;
         }
@@ -31,5 +38,14 @@ public class AuthFilter implements Filter {
             return;
         }
         chain.doFilter(req, res);
+    }
+
+    private boolean checkAllowableUri(String uri) {
+        for (String end : ALLOWABLE_URI) {
+            if (uri.endsWith(end)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
