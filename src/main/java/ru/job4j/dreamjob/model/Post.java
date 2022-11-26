@@ -80,12 +80,17 @@ public class Post {
             return false;
         }
         Post post = (Post) o;
-        return id == post.id;
+        return id == post.id
+                && visible == post.visible
+                && Objects.equals(name, post.name)
+                && Objects.equals(description, post.description)
+                && Objects.equals(create, post.create)
+                && Objects.equals(city, post.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, description, create, visible, city);
     }
 
     @Override
