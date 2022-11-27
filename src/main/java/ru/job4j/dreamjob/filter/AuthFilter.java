@@ -41,11 +41,6 @@ public class AuthFilter implements Filter {
     }
 
     private boolean checkAllowableUri(String uri) {
-        for (String end : ALLOWABLE_URI) {
-            if (uri.endsWith(end)) {
-                return true;
-            }
-        }
-        return false;
+        return ALLOWABLE_URI.stream().anyMatch(uri::endsWith);
     }
 }
